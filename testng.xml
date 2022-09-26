@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Task6 suite" verbose="1">
+    <test name="EuronewsSubscription">
+        <classes>
+            <class name="EuronewsSubscriptionTest"/>
+        </classes>
+    </test>
+</suite>

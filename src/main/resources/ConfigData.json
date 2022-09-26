@@ -1,0 +1,4 @@
+{
+  "authorizationCodeRequestUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+  "accessTokenRequestUrl": "https://oauth2.googleapis.com/token"
+}
