@@ -32,7 +32,7 @@ public class UriUtils {
         try {
             resultUri = new URIBuilder(configData.getValue("/authorizationCodeRequestUrl").toString())
                     .addParameter("client_id", credentials.getValue("/installed/client_id").toString())
-                    .addParameter("redirect_uri",credentials.getList("/installed/redirect_uris").get(0))
+                    .addParameter("redirect_uri", credentials.getList("/installed/redirect_uris").get(0))
                     .addParameter("response_type", "code")
                     .addParameter("scope", "https://mail.google.com/")
                     .addParameter("access_type", "online")
@@ -54,7 +54,7 @@ public class UriUtils {
                     .addParameter("client_secret", credentials.getValue("/installed/client_secret").toString())
                     .addParameter("code", authorizationCode)
                     .addParameter("grant_type", "authorization_code")
-                    .addParameter("redirect_uri",credentials.getList("/installed/redirect_uris").get(0))
+                    .addParameter("redirect_uri", credentials.getList("/installed/redirect_uris").get(0))
                     .build();
             logger.debug("getAuthorizationUrlUri: " + resultUri.toString());
         } catch (URISyntaxException e) {
@@ -62,6 +62,4 @@ public class UriUtils {
         }
         return resultUri;
     }
-
-
 }
