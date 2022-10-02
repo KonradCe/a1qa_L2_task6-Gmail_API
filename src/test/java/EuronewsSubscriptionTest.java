@@ -1,8 +1,10 @@
 import base.EuronewsSubscriptionBase;
 import forms.MainPage;
 import forms.NewslettersPage;
+import forms.SubscriptionConfirmedPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import utils.GmailUtils;
 
 public class EuronewsSubscriptionTest extends EuronewsSubscriptionBase {
 
@@ -20,12 +22,28 @@ public class EuronewsSubscriptionTest extends EuronewsSubscriptionBase {
         Assert.assertTrue(newslettersPage.state().waitForDisplayed(), "newsletter page was not displayed");
 
         logger.debug("STEP 3");
-        newslettersPage.selectRandomNewsletter();
+        String selectedNewsletter = newslettersPage.selectRandomNewsletter();
         Assert.assertTrue(newslettersPage.isEmailSubscriptionFormDisplayed(),
                 "email subscription form glued to the bottom of the page was not displayed");
 
         logger.debug("STEP 4");
         newslettersPage.enterEmailIntoSubscriptionForm(testData.getValue("/email").toString());
-        newslettersPage.clickSubmitButton();
+//        newslettersPage.clickSubmitButton();
+        // TODO: add step 4 assertion
+
+        logger.debug("STEP 5");
+
+        String urlToConfirmSubscription = GmailUtils.getUrlToConfirmSubscription();
+        browser.goTo(urlToConfirmSubscription);
+        SubscriptionConfirmedPage subscriptionConfirmedPage = new SubscriptionConfirmedPage();
+        Assert.assertTrue(subscriptionConfirmedPage.state().waitForDisplayed(), "page with subscription confirmation was not displayed");
+
+        logger.debug("STEP 6");
+        subscriptionConfirmedPage.clickOnBackToTheSiteButton();
+        Assert.assertTrue(mainPage.state().waitForDisplayed(), "home page was not displayed");
+
+        logger.debug("STEP 7");
+        mainPage.goToNewslettersPage();
+        newslettersPage.openPreviewOfNewsletter(selectedNewsletter);
     }
 }

@@ -21,7 +21,5 @@ public class EuronewsSubscriptionBase {
         Configurator.setRootLevel(Level.DEBUG);
         logger = Logger.getInstance();
         browser.maximize();
-
-//        RequestUtils.getAuthorizationUrl();
     }
 }

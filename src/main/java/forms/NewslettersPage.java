@@ -2,6 +2,7 @@ package forms;
 
 import aquality.selenium.core.logging.Logger;
 import aquality.selenium.elements.interfaces.IButton;
+import aquality.selenium.elements.interfaces.ILink;
 import aquality.selenium.elements.interfaces.ITextBox;
 import aquality.selenium.forms.Form;
 import org.openqa.selenium.By;
@@ -24,7 +25,7 @@ public class NewslettersPage extends Form {
         super(By.xpath("//span[contains(@class, 'h1') and contains(., 'newsletters')]"), "newsletters page");
     }
 
-    public void selectRandomNewsletter() {
+    public String selectRandomNewsletter() {
         List<ITextBox> newsletterBoxList = getElementFactory().findElements(By.xpath("//div[contains(@class, 'bg-white')]"), ITextBox.class);
         ITextBox randomNewsletter = newsletterBoxList.get(RandomUtils.getRandomIntInRange(newsletterBoxList.size()));
         logger.info("Subscribing to: " + randomNewsletter.findChildElement(By.xpath("//h2"), ITextBox.class).getText());
@@ -32,10 +33,12 @@ public class NewslettersPage extends Form {
                 By.xpath("//label[contains(@class, 'btn-tertiary') and not(contains(@class, 'hidden'))]"),
                 "select newsletter button",
                 IButton.class).click();
+
+        return randomNewsletter.findChildElement(By.xpath("//h2"), ITextBox.class).getText();
     }
 
     public boolean isEmailSubscriptionFormDisplayed() {
-        return emailForm.state().isDisplayed();
+        return emailForm.state().waitForDisplayed();
     }
 
     public void enterEmailIntoSubscriptionForm(String email) {
@@ -44,5 +47,13 @@ public class NewslettersPage extends Form {
 
     public void clickSubmitButton() {
         submitButton.click();
+    }
+
+    public void openPreviewOfNewsletter(String selectedNewsletter) {
+        System.out.println("//div[contains(@class, 'bg-white')]//h2[contains(text(), " + selectedNewsletter + ")]//following-sibling::a");
+        ILink newsletterPreviewLink = getElementFactory().getLink(
+                By.xpath("//div[contains(@class, 'bg-white')]//h2[contains(text(), '" + selectedNewsletter + "')]//following-sibling::a"), "newsletter preview link");
+
+        newsletterPreviewLink.click();
     }
 }
