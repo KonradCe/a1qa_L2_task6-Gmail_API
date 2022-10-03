@@ -7,6 +7,7 @@ import aquality.selenium.core.utilities.ISettingsFile;
 import aquality.selenium.core.utilities.JsonSettingsFile;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeSuite;
 
 public class EuronewsSubscriptionBase {
@@ -21,5 +22,11 @@ public class EuronewsSubscriptionBase {
         Configurator.setRootLevel(Level.DEBUG);
         logger = Logger.getInstance();
         browser.maximize();
+    }
+
+    @AfterMethod
+    protected static void tearDown() {
+        // TODO: uncomment before submitting final
+//        browser.quit();
     }
 }

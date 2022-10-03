@@ -13,4 +13,9 @@ public class ScratchTest {
     public static void getAccessToken() {
         ApiUtils.getAccessToken();
     }
+
+    @Test
+    public static void temp1() {
+//        StringUtils.idContainsNewsletterName("Culture", "culture_previews");
+    }
 }
