@@ -7,6 +7,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import utils.GmailUtils;
 
+import javax.naming.AuthenticationException;
+
 public class EuronewsSubscriptionTest extends EuronewsSubscriptionBase {
 
     @Test
@@ -29,15 +31,31 @@ public class EuronewsSubscriptionTest extends EuronewsSubscriptionBase {
 
         logger.debug("STEP 4");
         newslettersPage.enterEmailIntoSubscriptionForm(testData.getValue("/email").toString());
-//        newslettersPage.clickSubmitButton();
-        // TODO: add step 4 assertion
+        newslettersPage.clickSubmitButton();
+        try {
+            Assert.assertTrue(GmailUtils.isNewMailExists(), "no new email with a request to confirm subscription");
+        } catch (InterruptedException e) {
+            logger.error("waiting for new mail interrupted");
+            throw new RuntimeException(e);
+        }
 
         logger.debug("STEP 5");
-
-        String urlToConfirmSubscription = GmailUtils.getUrlToConfirmSubscription();
-        browser.goTo(urlToConfirmSubscription);
+        try {
+            String urlToConfirmSubscription = GmailUtils.getUrlToConfirmSubscription();
+            browser.goTo(urlToConfirmSubscription);
+        } catch (AuthenticationException e) {
+            logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
         SubscriptionConfirmedPage subscriptionConfirmedPage = new SubscriptionConfirmedPage();
         Assert.assertTrue(subscriptionConfirmedPage.state().waitForDisplayed(), "page with subscription confirmation was not displayed");
+
+        logger.info("Marking all euronews new emails as read so they will not be interpreted as new email in the final step");
+        try {
+            GmailUtils.markAllEmailsAsRead();
+        } catch (AuthenticationException e) {
+            throw new RuntimeException(e);
+        }
 
         logger.debug("STEP 6");
         subscriptionConfirmedPage.clickOnBackToTheSiteButton();
@@ -56,9 +74,14 @@ public class EuronewsSubscriptionTest extends EuronewsSubscriptionBase {
         logger.debug("STEP 9");
         unsubscribePage.enterEmailToUnsubscribe(testData.getValue("/email").toString());
         unsubscribePage.clickUnsubscribeButton();
+        Assert.assertTrue(unsubscribePage.isUnsubscribeMessageExists(), "unsubscribe message has not appeared");
 
         logger.debug("STEP 10");
-        // TODO: add step 10 assertion
-
+        try {
+            Assert.assertFalse(GmailUtils.isNewMailExists());
+        } catch (InterruptedException e) {
+            logger.error("waiting for new mail interrupted");
+            throw new RuntimeException(e);
+        }
     }
 }

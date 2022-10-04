@@ -1,3 +1,8 @@
 target/
 .idea/
 src/main/resources/ClientSecret.json
+
+# classess for getting authorization url and access code values,
+#to be copied into ConfigData.json file - this should be done manually by the user
+src/test/java/Sketch.java
+src/main/java/utils/AuthUtils.java

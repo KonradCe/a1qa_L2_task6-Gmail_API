@@ -54,7 +54,6 @@ public class NewslettersPage extends Form {
     }
 
     public void openPreviewOfNewsletter(String selectedNewsletter) {
-        System.out.println("//div[contains(@class, 'bg-white')]//h2[contains(text(), " + selectedNewsletter + ")]//following-sibling::a");
         IButton newsletterPreviewLink = getElementFactory().getButton(
                 By.xpath("//div[contains(@class, 'bg-white')]//h2[contains(text(), '" + selectedNewsletter + "')]//following-sibling::a"), "newsletter preview link");
 
