@@ -14,19 +14,18 @@ import utils.GmailUtils;
 
 import javax.naming.AuthenticationException;
 
-public class EuronewsSubscriptionBase {
+public class EuronewsSubscriptionBaseTest {
 
     protected static Logger logger = null;
     protected static Browser browser = AqualityServices.getBrowser();
     protected static ISettingsFile urls = new JsonSettingsFile("Urls.json");
     protected static ISettingsFile testData = new JsonSettingsFile("TestData.json");
-    protected static ISettingsFile apiConfig = new JsonSettingsFile("GmailApiConfig.json");
 
     @BeforeSuite
     protected static void suiteSetUp() {
         Configurator.setRootLevel(Level.DEBUG);
         logger = Logger.getInstance();
-        RestAssured.baseURI = apiConfig.getValue("/gmailApiBaseUri").toString();
+        RestAssured.baseURI = urls.getValue("/gmailApiBaseUri").toString();
 
         try {
             Integer emailsMarkedAsRead = GmailUtils.markAllEmailsAsRead();

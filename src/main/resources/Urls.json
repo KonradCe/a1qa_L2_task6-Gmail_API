@@ -1,3 +1,4 @@
 {
+  "gmailApiBaseUri": "https://gmail.googleapis.com",
   "euronewsMainPage": "https://euronews.com/"
 }

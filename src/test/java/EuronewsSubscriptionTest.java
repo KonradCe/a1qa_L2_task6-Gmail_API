@@ -1,4 +1,4 @@
-import base.EuronewsSubscriptionBase;
+import base.EuronewsSubscriptionBaseTest;
 import forms.MainPage;
 import forms.NewslettersPage;
 import forms.SubscriptionConfirmedPage;
@@ -9,7 +9,7 @@ import utils.GmailUtils;
 
 import javax.naming.AuthenticationException;
 
-public class EuronewsSubscriptionTest extends EuronewsSubscriptionBase {
+public class EuronewsSubscriptionTest extends EuronewsSubscriptionBaseTest {
 
     @Test
     public void euronewsSubscriptionTest() {
